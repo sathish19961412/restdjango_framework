@@ -23,7 +23,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('drinks/',views.drink_list),
     path('drinks/<int:id>',views.drink_detail),
-    path('users/',views.users_list)
+    path('users/',views.users_list),
+    path('users/<int:id>',views.users_detail)
 ]
 
 # urlpatterns = format_suffix_patterns(urlpatterns)
