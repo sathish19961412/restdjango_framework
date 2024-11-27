@@ -1,6 +1,5 @@
-from django.http import JsonResponse
-from .models import Drinks
-from .serializers import DrinkSerializer
+from .models import Drinks,Users
+from .serializers import DrinkSerializer,UserSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
@@ -39,3 +38,17 @@ def drink_detail(request,id,format=None):
     elif request.method == 'DELETE':
         drink.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(['GET','POST'])
+def users_list(request,format=None):
+    if request.method == 'GET':
+        users=Users.objects.all()
+        serializer=UserSerializer(users,many=True)
+        return Response(serializer.data)
+    
+    if request.method =='POST':
+        serializer=UserSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data,status=status.HTTP_201_CREATED)
